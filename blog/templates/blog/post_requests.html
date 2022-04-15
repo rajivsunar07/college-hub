@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block link %}
+    <link rel="stylesheet" href="{% static '/css/blog.css'%}">
+{% endblock link %}
+{% block content %}
+
+<!-- View all pending posts -->
+    {% for post in posts %}
+        {% if post.verification == 'pending' %}
+            <div class="post mr-auto ml-auto">
+                <!-- Post div -->
+                <div class="post-meta row">
+                    <img class="rounded-circle post-account-img img-fluid" src="{{ post.author.profile.image.url }}">
+                    <div class="post-desc col-6">
+                        <div class="row mt-3 justify-content-start">
+                            <h4 class="col-6 pr-0"><a href="{% url 'profile' post.author.id %}" class="text-dark"><strong>{{post.author.first_name}} {{post.author.last_name}}</strong></a></h4>
+                            <h5 class="text-muted col-4 pl-0 mt-1">{{post.published}}</h1>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-2">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="text" name="post-id" value="{{post.id}}" hidden>
+                            <button class="btn btn-success" name="accept" type="submit">Accept</button>
+                            <button class="btn btn-outline-danger" name="decline" type="submit">Decline</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="">
+                    <h2 class="mb-3 post-content mt-3 position-relative">
+                        {{post.content|truncatechars:200}}
+                        <a class="post-link stretched-link" ></a>
+                    </h1>
+                    {% if post.image %}
+                    <div class="row m-0 justify-content-center">
+                        <img class="img-fluid ml-auto mr-auto" src="{{ post.image.url }}">  
+                    </div>
+                        
+                    {% endif %}
+                    <div class="row m-0">
+                        {% include 'blog/post_option.html' %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+
+{% endblock content %}

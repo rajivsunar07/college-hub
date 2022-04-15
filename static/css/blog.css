@@ -1,0 +1,175 @@
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: whitesmoke;
+}
+
+
+/* post styles */
+  
+.create-post{
+  position: fixed;
+  top: 85%;
+  right: 100px;
+  padding: 5px;
+  background-color: white;
+  width: 80px;
+  height: 80px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transition: .2s all ease-in;
+}
+  .create-post-link i{
+    width: 40px;
+  }
+  .create-post:hover{
+    box-shadow: 7px 8px 2px grey;
+    transition-property: box-shadow;
+  }
+
+.group-header{
+  width: 600px;
+  padding: 10px;
+  transition: .2s all ease-in;
+  border: 0.75px solid rgb(143, 143, 143);
+  margin-top: 50px;
+}
+ 
+.post{
+  width: 600px;
+  padding: 10px;
+  background-color: white;
+  transition: .2s all ease-in;
+  border: 0.75px solid rgb(143, 143, 143);
+  margin-top: 50px;
+}
+  .post:hover{
+    box-shadow: 2px 2px 2px 2px rgb(231, 231, 231);
+    transition-property: box-shadow;
+  }
+
+  .post-link{
+    text-decoration: none;
+  }
+
+  .post-meta{
+    border-bottom: 2px solid lightgray;
+    margin: 0px;
+    padding-bottom: 10px;
+  }
+
+    .post-account-img{
+      width: 50px;
+      height: 50px;
+    }
+
+    .post-desc h4{
+      font-size: 16px;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .post-desc h5{
+      font-size: 12px; 
+    }
+
+  .post-content{
+    padding: 10px;
+    font-size: 18px;
+  }
+
+  
+  
+  
+  /* comment styles */
+  .comments{
+    margin-top: 20px;
+    margin-left: -10px;
+    width: 580px;
+  }
+    .comments .row{
+      margin:0px;
+      padding: 3px;
+      padding-left: 5px;
+    }
+  
+    .comment{
+      height: 60px;
+      width: 700px;
+  
+    }
+  
+    .comment-author-img{
+      margin-top: 4px;
+      width: 40px;
+      height: 40px;
+    }
+  
+    .comment-meta .text-muted{
+      font-size: 12px;
+      padding: 0;
+    }
+  
+    .comment-meta a{
+      padding-bottom: 20px;
+    }
+  
+    .comment-form{
+      margin-top: 10px;
+      height: 70px;
+    }
+  
+    .comment-form img{
+      margin-bottom: 100px;
+      margin-left: 5px;
+    }
+  
+    .comment-form-input{
+      margin-left: 10px;
+    }
+
+
+    /* media queries */
+
+
+@media (max-width: 992px){
+  .create-post{
+    right: 70px;
+  }
+}
+
+@media (max-width: 768px) { 
+  
+  .post{
+    margin-left: 0px;
+ }
+  
+}
+
+
+@media (min-width: 768px) and (max-width: 992px) { 
+  
+  .post{
+    margin-left: 20px;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1020px) { 
+ 
+  .post{
+    margin-left: 40px;
+  }
+  }
+  
+@media (min-width: 1020px) and (max-width: 1080px) { 
+   
+    .post{
+        margin-left: 80px;
+    }
+}
+
+@media (min-width: 1080px) and (max-width: 1200px) { 
+  
+
+    .post{
+        margin-left: 100px;
+    }
+}

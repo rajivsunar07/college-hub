@@ -1,0 +1,41 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '/bootstrap-4.5.0-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static '/css/login.css' %}">
+    <title>Softwarica HUB</title>
+</head>
+
+<body>
+    <div class="container-fluid login-main-container">
+        <div class="row m-0 justify-content-around login-main-container align-items-center">
+            <div class="login-logo col-10 col-sm-8 col-md-7 col-lg-4 col-xl-4 p-3">
+                <div class="row h1 text-primary">Softwarica</div>
+                <div class="row h2">HUB</div>
+            </div>
+            <div class="login-container border border-bottom col-10 col-sm-8 col-md-6 col-lg-5 col-xl-4 p-0">
+                <div class="login-header text-center bg-light">
+                    Welcome to Softwarica HUB
+                </div>
+                {% block forms %}
+                
+                {% endblock forms %}
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <script href="{% static '/bootstrap-4.5.0-dist/js/jquery-3.5.1.slim.min.js' %}"></script>
+    <script href="{% static '/bootstrap-4.5.0-dist/js/popper.min.js' %}"></script>
+    <script href="{% static '/bootstrap-4.5.0-dist/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
+
+
+   
+    

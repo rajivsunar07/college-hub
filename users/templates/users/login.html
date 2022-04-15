@@ -1,0 +1,31 @@
+
+{% extends 'users/login_base.html' %}
+{% load static %}
+
+
+{% block forms %}
+    <form action="" method="Post">
+        {% csrf_token %}
+
+        {% for key,error in form.errors.items %} 
+        <p>{{ error }}</p>
+        {% endfor %}
+        
+        <div class="form-group row" >
+            <div class="col-3 col-lg-3">{{ form.username.label }}</div>
+            <div class="col-2 col-lg-2">{{ form.username }}</div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3 col-lg-3">{{ form.password.label }}</div>
+            <div class="col-2 col-lg-2">{{ form.password }}</div>
+        </div>
+        <div class="row">
+            <a href="{% url 'password_reset' %}" class="col-8 mb-3">Forgot Password?</a>
+        </div>
+    <button type="submit" class="btn  btn-primary">Login</button>
+    </form>
+{% endblock forms %}
+
+
+   
+    

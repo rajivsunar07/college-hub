@@ -1,0 +1,27 @@
+{% extends 'blog/base.html'%}
+
+{% block content %}
+    
+    <div class="container bg-white p-4 border">
+        <div class="create-post-header border-bottom mb-2 pb-2 row justify-content-center m-0 font-weight-bold">
+            <h2>Update {{type}}</h2>
+            <i class="fas fa-pen fa-2x text-success mt-1 ml-3"></i>
+        </div>
+        <form action="" method="Post" enctype="multipart/form-data" class="mt-3">
+            {% csrf_token %}
+            <div>
+                {{form.as_p}}
+            </div>
+        
+            {% if type == 'poll' or type == 'invite' %}
+                {% for option in options %}
+                    <input type="text" name="{{option.id}}" value="{{option.option}}" class="mt-3">
+                {% endfor %}
+            {% endif %}
+        
+        
+            <button class="btn btn-success mt-3" type="submit">Update post</button>
+        </form>
+    </div>
+    
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'blog/base.html'%}
+
+{% block content %}
+    <div class="container bg-white p-4">
+        <!-- Header -->
+        <div class="row m-0 justify-content-center border-bottom mb-4 ">
+            <h3>Update Profile Picture</h3>
+        </div>
+
+        <!-- Current image -->
+        <div class="profile-div border-bottom mb-4 row justify-content-center"> 
+            <img class="img-thumbnail" width="150px" src="{{user.profile.image.url}}">
+        </div>
+
+        <!-- Image update form -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for key,error in form.errors.items %} 
+                <p>{{ error }}</p>
+            {% endfor %}
+            
+            {{profile_form}}
+            <button type="submit" class="btn btn-success mt-3">Update</button>
+        </form>
+    </div>
+
+    
+    
+{% endblock content %}

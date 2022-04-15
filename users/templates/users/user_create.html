@@ -1,0 +1,140 @@
+
+{% extends 'blog/base.html'%}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-xl-11">
+
+            <!-- Breadcrumb for dashboard -->
+            <nav class="bg-white p-0 mb-2 border-0" aria-label="breadcrumb">
+                <ol class="breadcrumb m-0 border-bottom-0">
+                  <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">User</li>
+                </ol>
+            </nav>
+
+            <!-- Create a user header -->
+            <div class="row p-2 bg-white justify-content-center m-0 border">
+                <h3 class="display-5 text-center mt-2">
+                    Create a User <i class="fas fa-user-plus text-success"></i>
+                </h3>
+            </div>
+
+            <!-- User create form -->
+            <div class="row m-0 mt-2 justify-content-center bg-white p-4 mb-4">
+                <div class="register-div col-10 col-md-8 col-lg-5 border mb-4">
+
+                    <!-- Errors and messages -->
+                    {% for key,error in user_form.errors.items %} 
+                        <div class="row justify-content-center">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+        
+                    {% for message in messages %}
+                        <div class="row justify-content-center mb-3">{{message}}</div>
+                    {% endfor %}
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8"> <input name="college_id" type="text" class="form-control" placeholder="College ID"></div> 
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8"> <input name="user_type" type="text" class="form-control" placeholder="User Type"> </div> 
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8"> {{ user_form.first_name }}</div> 
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8"> {{ user_form.last_name }}</div> 
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-lg-10 col-xl-8"> {{ user_form.username }}</div>       
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8"> {{ user_form.email }}</div>       
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8"> {{ user_form.password1 }}</div>       
+                        </div>
+                        <div class="row form-group justify-content-center">
+                            <div class="col-10 col-xl-8">{{ user_form.password2 }}</div>       
+                        </div>
+
+                        <!-- Group selection -->
+                        <div class="row form-group justify-content-center pl-4 pr-4">
+                            <select class="form-control col-10 col-xl-8" id="group-select" name="group-select" required>
+                                <option value="" disabled selected >Select a group</option>
+                                {% for group in groups %}
+                                    {% if group.name != "home" %}
+                                        <option value="{{group.id}}">{{group.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="row justify-content-end create-user-btn">
+                            <button name="create" value="create" type="submit" class="btn btn-success mb-3 ml-4">Create User</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Users display table -->
+                <div class="table-responsive col-12 col-lg-7">
+                    <table class="table user-table mr-auto ml-auto">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">College ID</th>
+                            <th scope="col">Full Name</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email Address</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <th scope="row">{{user.profile.college_id}}</th>
+                                    <td><a href="{% url 'profile' user.id %}">{{user.first_name}} {{user.last_name}}</a></td>
+                                    <td>{{user.username}}</td>
+                                    <td>{{user.email}}</td>
+                                    
+                                    <!-- Update and delete user buttons -->
+                                    <td>
+                                        <a class="text-primary mr-3" href="{% url 'user_update' user.id %}"><i class="fas fa-pen"></i></a>
+                                        <a class="text-danger delete-logo" data-toggle="modal" data-target="#user-delete-modal" data-id="{{user.id}}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+
+                                        <!-- Delete modal -->
+                                        <div class="modal fade" id="user-delete-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <form action="{% url 'user_delete' %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <div class="modal-body">
+                                                        <input type="text" id="user-delete-id" name="user-delete-id" hidden>
+                                                        <h4>Are you sure you want to delete?</h4>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger" >Delete</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+{% endblock content %}

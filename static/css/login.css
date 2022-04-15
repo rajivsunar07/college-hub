@@ -1,0 +1,52 @@
+body{
+    background-color: rgb(255, 254, 254);
+
+}
+
+.login-main-container{
+    height: 100vh;
+
+}
+
+.login-container{
+    background-color: white;
+    border: 1px solid gray;
+    width: 400px;
+
+}   
+
+.login-container form{
+    padding: 0px 40px 40px 40px;
+}
+
+
+.login-header{
+    padding: 20px;
+    padding-right: -40px;
+    padding-left: -40px;
+
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 40px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.login-logo{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-logo .h1{
+    font-size: 100px;
+    
+}
+
+.login-logo .h2{
+    font-size: 80px;
+}
+
+.form-group input{
+    width: 200px;
+}
+
+ul{
+    list-style-type: none;
+}

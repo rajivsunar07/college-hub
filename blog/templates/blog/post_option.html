@@ -1,0 +1,43 @@
+<!-- Used to display post options -->
+{% if post.type == 'poll' or post.type == 'invite' %}
+  <div id="{{post.id}}" class="col-12">
+      {% if post in user_clicked_posts %}
+          <!-- If a user has already chosen an option in an poll or invites -->
+        <div class="col-12">
+          
+          {% for postOption in postOptions %}
+            {% if postOption.post == post %}
+                {% if postOption in user_clicked_options %}
+                <div class="row mb-3">
+                    <div class="col-2 font-italic font-weight-bold">{{postOption}}</div>
+                    <progress class="col-9 mt-1" max="100" value="{{postOption.clicked_percent}}"> {{postOption.clicked_percent}}</progress> 
+                </div>   
+                {% else %}
+                <div class="row mb-3">
+                    <div class="col-2">{{postOption}}</div>
+                    <progress class="col-9 mt-1" id="file" max="100" value="{{postOption.clicked_percent}}"> {{postOption.clicked_percent}}</progress>
+                    
+                </div>
+                {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="col-12">
+          <form id="postOptionForm">
+              {% csrf_token %}
+              <!-- Options to a poll or invites -->
+              <input type="hidden" id="PostId" name="PostId" value="{{post.id}}">
+              <div class="row m-2">
+              {% for postOption in postOptions %}
+                {% if postOption.post == post %}
+                  <button id="{{postOption.id}}" class="btn btn-primary m-2 optionButton col" type="submit" name="option" value="{{postOption}}">{{postOption}}</button>
+                {% endif %}
+              {% endfor %}
+
+              </div>
+          </form>
+        </div>
+      {% endif %}
+    </div>
+{% endif %} 

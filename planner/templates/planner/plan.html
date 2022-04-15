@@ -1,0 +1,73 @@
+{% extends 'blog/base.html'%}
+
+{% block content %}
+    
+
+    <div class="container-fluid mt-3 row justify-content-center m-0 ">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10 bg-white p-4">
+            <div class="row m-0 mb-4 border-bottom">
+                <h3 class="text-info"> Today's date: </h3> <h4 class="mt-1 ml-2">{{time.date}}</h4>
+            </div>
+
+            <!-- planner form  -->
+            <form action="{% url 'plan_create' %}" method="POST">
+                {% csrf_token %}
+                <div class="row mb-3">
+                    <div class="col-10 col-sm-10 col-md-4 col-lg-4 col-xl-6 mb-2">{{form.title}}</div>
+                    <div class="col-10 col-sm-10 col-md-4 col-lg-4 col-xl-3 mb-2">
+                        <div class="row m-0">
+                            {{form.date}} 
+                        </div>
+                    </div>
+                    <div class="col-8 col-sm-8 col-md-2 mb-2">{{form.time}} </div>
+                    <button type="submit" class="btn btn-success">Create</button> 
+                </div>
+            </form>
+            
+            <!-- buttons to delete old or completed plans -->
+            <a href="{% url 'delete_completed' %}" class="btn btn-outline-danger mb-4 mt-3">Delete Completed</a>
+            <a href="{% url 'delete_old' %}" class="btn btn-outline-danger mb-4 mt-3">Deleted old plans</a>
+            <div class="border-bottom mb-3"></div>
+
+            <!-- plans -->
+            {% for date in dates %}
+                {% if date ==  time.date %}
+                    <h3 class="text-info">{{date}} (Today)</h3>
+                {% else %}
+                    <h3>{{date}}</h3>
+                {% endif %}
+                {% for plan in plans %}
+                    {% if plan.date == date %}
+                        <div class="row m-0 ml-3 justify-content-between mb-3">
+                            <h5 class="mr-3 plan-texts">{{plan.time}} :</h5> 
+                            <!-- To check whether the plan is completed or nut -->
+                            {% if plan.completed %}
+                                <div class="col-6 col-sm">
+                                    <p class="mr-2 plan-texts"><del>{{plan.title}}</del></p>
+                                </div>
+                                <div class="col-12 col-sm">
+                                    <span class="text-success"><i class="fas fa-check"></i>Completed</span>
+                                    <!-- Update and delete plan -->
+                                    <a href="{% url 'plan_update' plan.id %}" class="ml-2"><i class="fas fa-pen"></i></a>
+                                    <a class="text-danger ml-2" href="{% url 'plan_delete' plan.id%}"><i class="fas fa-trash"></i></a>
+                                </div>
+                            {% else %}
+                                <div class="col-6 col-sm"><p class="mr-2">{{plan.title}}</p></div>
+                                
+                                <div class="col-12 col-sm">
+                                    <a class="btn btn-success" href="{% url 'plan_complete' plan.id %}">complete</a>
+                                    <a href="{% url 'plan_update' plan.id %}" class="ml-2"><i class="fas fa-pen"></i></a>
+                                    <a class="text-danger ml-2" href="{% url 'plan_delete' plan.id%}"><i class="fas fa-trash"></i></a>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                    {% endif %}
+
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+     </div>
+    
+{% endblock content %}

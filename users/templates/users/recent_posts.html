@@ -1,0 +1,70 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <!-- Breadcrumb for dashboard -->
+        <nav class="bg-white p-0 mb-2 border-0" aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 border-bottom-0">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Recent Posts</li>
+            </ol>
+        </nav>
+
+        <!-- Recent posts header -->
+        <div class="row m-0 bg-white justify-content-center border">
+            <h3 class="title display-5 text-center text-success">
+                Recent Posts
+                <img src="{% static '/images/article.png' %}"  class="mt-0 img-thumbnail border-0">
+             </h3>
+        </div>
+
+        
+        <div class="row m-0 justify-content-center mt-2 p-4 bg-white border-bottom">
+            <div>
+                <!-- Group selection -->
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Group
+                    </a>
+                  
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% for group in groups %}
+                            <a class="dropdown-item" href="{% url 'recent_posts' group.name %}">{{group.name}}</a> 
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <h3 class="ml-3">{{name}}</h3>
+        </div>
+        
+        <!-- Posts table -->
+        <div class="row m-0 bg-white p-3 mb-4">
+            <table class="table text-center">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">Content</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time Since</th>
+                    <th scope="col">Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                        <tr>
+                            <td><a href="{% url 'post_detail' name=post.group.name pk=post.id %}">{{post.content|truncatechars:10}}</a></td>
+                            <td><a href="{% url 'profile' post.author.id%}">{{post.author}}</a></td>
+                            <td>{{post.date_posted}}</td>
+                            <td>{{post.published}}</td>
+                            <td>{{post.type}}</td>
+                        </tr>
+                    {% endfor %}
+                  
+                </tbody>
+              </table>
+        </div>
+
+        
+    </div>
+
+{% endblock %}

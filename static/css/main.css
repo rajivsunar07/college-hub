@@ -1,0 +1,247 @@
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: whitesmoke;
+}
+
+.login{
+  border: 2px solid black;
+}
+
+
+#create-post-tooltip:hover{
+  cursor: pointer;
+}
+
+/* Navigation bar */
+nav{
+  background-color: white;
+  border-bottom: .5px lightgray solid;
+}
+  .nav-img{
+    height: 40px;
+    width: 40px;
+  }
+  
+/* Django errors styles */
+.errorlist{
+    list-style: none;
+}
+
+/* Profile styles */
+.profile-div{
+  height: 200px;
+}
+  .profile-img{
+    width: 250px;
+  }
+
+
+.account-img-div{
+  padding: 0px;
+  height: 40px;
+  width: 40px;
+
+}
+
+.account-img{
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+    padding: 0px;
+}
+
+.checkbtn{
+  display: none;
+}
+
+.content{
+  margin-top: 50px;
+
+  padding-top: 20px;
+}
+
+
+/* dashboard */
+
+.main-container{
+  padding:0px;
+  width: 100%;
+
+}
+
+
+.dashboard-space img{
+  margin-top: 20px;
+  width: 40px;
+}
+
+
+.dashboard-space{
+  height: 89vh;
+  padding: 0px;
+  margin: 0px;
+}
+
+.four-box{
+  width: 100%;
+  margin: 0px;
+  margin-top: 2%;
+}
+
+.four-box div{
+  height: 100px;
+  width: 100px;
+  margin: 5px;
+  padding-top: 5px;
+}
+
+.stat-box{
+  border-radius: 10px;
+  transition: .2s all ease-in;
+  
+}
+
+.stat-box:hover{
+  cursor: pointer;
+  transition-property: box-shadow;
+  box-shadow: 5px 5px rgb(219, 219, 219);
+}
+
+.main-box{
+  height: 65vh;
+  margin-left: 4%;
+}
+
+.dash-box{
+  margin-top: 60px;
+
+}
+
+.title{
+  margin-top:10px;
+  margin-bottom: 10px;
+}
+
+
+
+.main-dashboard{
+  padding: 0%;
+}
+
+.dash-icon-requests img{
+  width: 30px;
+}
+
+.breadcrumb{
+  background-color: whitesmoke;
+}
+
+.table-btn{
+  margin-top: 8px;
+}
+
+.bar{
+  width: 80%;
+  margin-left: 20px;
+}
+
+.dashboard-table th, td{
+  font-size: 14px;
+}
+
+.dash-icon i{
+  width: 50px;
+}
+
+.text-orange{
+  color: lightcoral
+}
+/* register div */
+
+.register-div{
+  background-color: white;
+  padding-top: 30px;
+  width: 250px;
+}
+
+.create-user-btn{
+  margin-right: 70px;
+}
+
+.user-table{
+  width: 700px;
+  background-color: white;
+
+}
+
+.user-checkbox{
+  height: 20px;
+}
+
+.update-user-btn{
+  margin-right: 250px;
+}
+
+.group-add-link{
+  margin-left : 70px;
+  margin-top : 30px;
+}
+
+.group-user-link{
+  margin-left: 60px;
+}
+
+.logout-div{
+  position: absolute;
+  top: 90px;
+  left: 20px;
+}
+
+
+
+
+.group-dropdown{
+  padding-left: 90px ;
+}
+
+.group-name{
+  position: relative;
+  left: 340px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+
+.comment-form{
+  margin-top: 50px;
+}
+
+.profile-settings:hover{
+  cursor: pointer;
+}
+
+
+/* Media queries */
+
+@media (max-width: 576px) { 
+  .content{
+    margin-left: 2px;
+    margin-right: 3px;
+  }
+
+  .profile-meta *{
+    font-size: 20px;
+  }
+
+  .plan-texts {
+    font-size: 16px;
+  }
+
+  .profile-container{
+    height: 450px;
+  }
+
+}

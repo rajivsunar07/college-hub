@@ -1,0 +1,125 @@
+
+{% extends 'blog/base.html'%}
+
+{% block content %}
+    
+    <div class="container">
+        <!-- Dashboard breadcrumb -->
+        <nav class="bg-white p-0 mb-2 border-0" aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 border-bottom-0">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'group_create' %}">Group</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Add User to a Group</li>
+            </ol>
+        </nav>
+       
+        <!-- Dropdown to select the group -->
+        <div class="row m-0 justify-content-center mt-4 p-4 bg-white border-bottom">
+            <div>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Group
+                    </a>
+                    
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% for group in groups %}
+                            <a class="dropdown-item" href="{% url 'add_user_group' group.name %}">{{group.name}}</a> 
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <h3 class="ml-3">{{name}}</h3>
+        </div>
+        
+        <!-- Table to view and select users  -->
+        <div class="row justify-content-around bg-white m-0 p-3">
+            <div class="col-lg-5 col-md-8 border m-2 p-2">
+                <!-- Table to display users in the group -->
+                <div class="row m-0 justify-content-center p-2 bg-secondary">
+                    <h3 class="text-white mt-2">Users in the group</h3>
+                </div>
+                
+                <table class="table bg-white">
+                    <thead>
+                    <tr>
+                        <th scope="col">College ID</th>
+                        <th scope="col">Full Name</th>
+                        <th scope="col">Groups</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            {% if user in group_users %}
+                                <tr>
+                                    <td>{{user.profile.college_id}}</td>
+                                    <td>{{user.first_name}} {{user.last_name}}</td>
+                                    <td>
+                                        {% for group in groups %}
+                                            {% for group_user in group.user.all %}
+                                                {% if user == group_user and group.name != 'home' %}
+                                                    {{group}}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Form to select users  -->
+            <div class="col-lg-6 col-md-8 border m-2 p-2">
+                <form action="" method="POST">
+                    {% csrf_token %}
+
+                    {% for key,error in form.errors.items %} 
+                    <p>{{ error }}</p>
+                    {% endfor %}            
+
+                    <div class="row m-0 justify-content-center p-2">
+                        <h3 class="mr-4 mt-2">Users</h3>
+                        <button type="submit" name="Add user" class="btn btn-success p-1 mt-2">Add User</button>
+                    </div>
+                    
+                    <!-- Table to display other users -->
+                    <table class="table bg-white table-responsive-sm">
+                        <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th scope="col">College ID</th>
+                            <th scope="col">Full Name</th>
+                            <th scope="col">Groups</th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                {% if user not in group_users %}
+                                    <tr>
+                                        <td><input type="checkbox" class="user-checkbox" name="user" id="user{{user.id}}" value="{{user.id}}"></td>
+                                        <td>{{user.profile.college_id}}</td>
+                                        <td>{{user.first_name}} {{user.last_name}}</td>
+                                        
+                                        <td>
+                                            {% for group in groups %}
+                                                {% for group_user in group.user.all %}
+                                                    {% if user == group_user and group.name != 'home' %}
+                                                        {{group}}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock content %}

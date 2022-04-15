@@ -1,0 +1,110 @@
+{% extends 'blog/base.html'%}
+
+{% block content %}
+   <!-- profile information -->
+    <div class="container p-4 bg-white border-bottom rounded profile-container">
+        <div class="profile-div"> 
+            <div class="row m-0 justify-content-start">
+                <div class="col-6 col-sm-4 col-md-4 mb-3">
+                    <img class="rounded-circle mr-auto ml-auto" width="150px" src="{{profile_user.profile.image.url}}">
+                </div>
+                <div class="profile-meta col-10 col-sm-6 col-md-7  ml-4">
+                    <div class="row m-0">
+                        <h3 class="border-bottom mr-3">{{profile_user.first_name}} {{profile_user.last_name}}</h3>
+                        {% if profile_user == request.user %}
+                            <div class="dropdown  mt-1 profile-settings">
+                                <i class="fas fa-cog" class="dropdown-toggle mt-4" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="{% url 'profile_update' %}">Update Picture</a>
+                                <a class="dropdown-item" href="{% url 'password_change' %}" >Change Password</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    
+                    {% if profile_user == request.user or request.user.is_superuser %}
+                        {% for group in profile_groups %}
+                            <span>{{group.name}}</span>
+                        {% endfor %}
+                        <h5>{{profile.college_id}}</h5>
+                        <h5 class="mt-4 text-muted">Username: {{profile_user.username}}</h5>
+                        <h5 class="text-muted">Email: {{profile_user.email}}</h5>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- to display posts by the user -->
+    <div class="container bg-white mb-4">
+        <div class="row">
+            <div class="border-right bg-white profile-posts col p-3 text-center">
+                <h3>Posts</h3>
+                <table class="table table-hover">
+                    <thead class="thead-primary">
+                      <tr class="table-secondary">
+                        <th scope="col border-right">Post</th>
+                        <th scope="col">Group</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in accepted_posts %}
+                            {% if post.group in request_user_groups or request.user.is_superuser %}
+                                <tr>
+                                    <td><a href="{% url 'post_detail' name=post.group.name pk=post.id %}">{{post.content}}</a></td>
+                                    <td>{{post.group.name}}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- to display requested post-status -->
+            {% if profile_user.is_superuser %}
+            {% elif request.user == profile_user or request.user.is_superuser %}
+                <div class="bg-white profile-posts col-lg col-md-12 col-sm-12 p-3 text-center">
+                    <div class="row m-0 justify-content-center">
+                        <h3>Requested Posts</h3>
+                        {% if request.user == profile_user %}
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                
+                                <button type="submit" class="btn btn-outline-danger ml-2">Delete declined posts</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Post</th>
+                            <th scope="col">Group</th>
+                            <th scope="col">Status</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for post in posts %}
+                                <tr>
+                                    <td>{{post.content}}</td>
+                                    <td>{{post.group.name}}</td>
+                                    {% if post.verification == 'accepted' %}
+                                        <td class="text-success">Accepted</td>
+                                    {% elif post.verification == 'declined' %}
+                                        <td class="text-danger">Declined</td>
+                                    {% elif post.verification == 'pending' %}
+                                        <td class="text-warning">Pending</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    
+{% endblock content %}

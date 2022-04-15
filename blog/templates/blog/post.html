@@ -1,0 +1,138 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block link %}
+    <link rel="stylesheet" href="{% static '/css/blog.css'%}">
+{% endblock link %}
+{% block content %}
+
+    <!-- Create Post Link -->
+    <div class="create-post rounded-circle row justify-content-center bg-primary">
+        <a href="{% url 'post_create' name=name post_type='post' %}" class="align-self-center create-post-link"><i class="text-light fas fa-plus fa-3x"></i></i></a>
+        
+    </div>
+    {% if name != 'home' %}
+        <div class="container-fluid mb-3 mt-3 p-0">
+            <div class="mr-auto ml-auto p-0 border-0 group-header">
+                <div class="row m-0 justify-content-center mt-4 ml-auto mr-auto">
+                    <h3 class="text-dark">{{name}}</h3>
+                </div>
+            </div>
+            
+        </div>
+    {% endif %}
+    
+    <!-- Posts -->
+    {% for post in posts %}
+        <!-- To display the posts belonging to particular groups -->
+        {% if post.verification == 'accepted' and post.group.name == name %}
+        
+            <div class="container-fluid mb-3 mt-3 p-0">
+                <div class="post mr-auto ml-auto">
+                   
+                <!-- Post div -->
+                    <div class="post-meta row m-0">
+                        <div> 
+                            <img class="rounded-circle post-account-img img-fluid" src="{{ post.author.profile.image.url }}">
+                        </div>
+                       
+                        <div class="post-desc col-9">
+                            <div class="row m-0 mt-3 justify-content-start">
+                                <h4 class="col-6 pr-0"><a href="{% url 'profile' post.author.id %}" class="text-dark"><strong>{{post.author.first_name}} {{post.author.last_name}}</strong></a></h4>
+                                <h5 class="text-muted col-3 pl-0 mt-1">{{post.published}}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="mb-3 post-content mt-3 position-relative">
+                            {{post.content|truncatechars:200}}
+                            <a class="post-link stretched-link" href="{% url 'post_detail' pk=post.id name=name %}"></a>
+                        </h2>
+                        {% if post.image %}
+                        <div class="row justify-content-center m-0">
+                            <img class="img-fluid mr-auto ml-auto" src="{{ post.image.url }}">
+                        </div>
+                           
+                        {% endif %}
+                        <div class="row m-0">
+                            {% include 'blog/post_option.html' %}
+                        </div>
+                    </div>
+
+                    
+                    <!-- Comments -->
+                    <div class="comments row justify-content-start ml-0 mb-0 mr-4">
+                        {% for comment in comments %}
+                            {% if comment.post == post %}
+                                
+                                <div class="comment row border-top pt-2">
+                                    
+                                    <img class="rounded-circle comment-author-img img-fluid" src="{{ comment.author.profile.image.url }}">
+                                    <div class="col-9">
+                                        <div class="">{{comment.content}}</div>
+                                        <div class="row comment-meta">
+                                            <div class="col-5">
+                                                <a href="{% url 'profile' comment.author.id %}" class="text-muted">{{comment.author.first_name}} {{comment.author.last_name}}</a>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+                
+            </div>
+        {% endif %}
+    {% endfor %}
+    
+        <!-- Paginator -->
+    <div class="row m-0 mb-4">
+    {% if posts.paginator.num_pages > 1 %}
+        <nav class="mr-auto ml-auto Page navigation">
+            <ul class="pagination mb-0">
+                
+                {% if posts.has_previous %}
+                    <li class="page-item">
+                        <a href="?page=1" class="page-link"><i class="fas fa-angle-double-left"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link " href="?page={{ posts.previous_page_number }}" tabindex="-1" aria-disabled="true"><i class="fas fa-angle-left"></i></a>
+                    </li>
+                {% endif %}
+            
+                
+                {% for num in posts.paginator.page_range %}
+                    {% if posts.number == num %}
+                        <li class="page-item active">
+                            <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+                        </li>
+                    {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                        <li class="page-item">
+                            <a href="?page={{ num }}" class="page-link ">{{num}}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if posts.has_next %}
+                    <li class="page-item">    
+                        <a class="page-link" href="?page={{ posts.next_page_number }}"><i class="fas fa-angle-right"></i></a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ posts.paginator.num_pages }}" class="page-link"><i class="fas fa-angle-double-right"></i></a>
+                    </li>
+                {% endif %}
+            
+            </ul>
+       </nav>
+      {% endif %}
+    </div>
+  
+
+   
+
+{% endblock content %}
+
+
+{% block extrascript %}
+  <script src="{% static '/js/postOption.js' %}"></script>
+{% endblock extrascript %}

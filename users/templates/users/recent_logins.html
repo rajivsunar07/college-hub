@@ -1,0 +1,69 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <!-- Breadcrumb for dashboard -->
+        <nav class="bg-white p-0 mb-2 border-0" aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 border-bottom-0">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Recent Logins</li>
+            </ol>
+        </nav>
+
+        <!-- Last Logins header -->
+        <div class="row p-2 bg-white justify-content-center m-0 border">
+            <h3 class="display-5 graph-text text-center text-orange">
+                Last logins
+                <img src="{% static '/images/login.png' %}" class="mt-0 img-thumbnail border-0">
+            </h3>
+        </div>
+
+        <!-- Group selection -->
+        <div class="row m-0 justify-content-center mt-2 p-4 bg-white border-bottom">
+            <div>
+                <div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Group
+                    </a>
+                  
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% for group in groups %}
+                            <a class="dropdown-item" href="{% url 'recent_logins' group.name %}">{{group.name}}</a> 
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <h3 class="ml-3">{{name}}</h3>
+        </div>
+
+        <!-- User table -->
+        <div class="row m-0 bg-white p-3 mb-4">
+            <table class="table text-center">
+                <thead class="thead-light">
+                  <tr>
+                    <th></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Last Login</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td><img  width="50px" src="{{user.profile.image.url}}"></td>
+                            <td><a href="{% url 'profile' user.id%}">{{user.profile.college_id}}</a></td>
+                            <td>{{user.first_name}} {{user.last_name}}</td>
+                            <td>{{user.profile.user_type}}</td>
+                            <td>{{user.last_login}}</td>
+                        </tr>
+                    {% endfor %}
+                  
+                </tbody>
+              </table>
+        </div>
+
+        
+    </div>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+
+{% extends 'blog/base.html'%}
+{% load static %}
+
+{% block content %}
+    <div class="container main-container">
+
+        <div class="dashboard-space mt-4">
+          <div class="row justify-content-center m-0">
+            <div class="col-12 main-dashboard">
+              <div class="row four-box justify-content-around m-0">
+                
+                <!-- Dashboard buttons -->
+                <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-8 bg-white stat-box border position-relative">
+                  <a class="stretched-link" href="{% url 'user_create' %}"></a>
+                    <div class="row justify-content-between m-0 mt-3">
+                      <div class="col-2 text-dark dash-icon"><i class="fas fa-user"></i></div>
+                      <div class="col-4 col-lg-6"><h5>User</h5></div>
+                    </div>
+                  
+                  
+                </div>
+                
+                <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-8 bg-white stat-box border position-relative">
+                  <a class="stretched-link" href="{% url 'group_create' %}"></a>
+                    <div class="row justify-content-between m-0 mt-3">
+                      <div class="col-2 text-dark dash-icon"><i class="fas fa-users"></i></div>
+                      <div class="col-4 col-lg-4"><h5>Group</h5></div>
+                    </div>
+                  
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6 col-8 bg-white stat-box border position-relative">
+                  <a class="stretched-link" href="{% url 'post_requests' %}"></a>
+                  <div class="row justify-content-between m-0 mt-3">
+                    <div class="col-2 dash-icon dash-icon-requests">
+                      <img src="{% static '/images/shipment.png' %}" class="mt-0 mr-1 border-0">
+                    </div>
+                    <div class="col-4 col-lg-4 mb-3"><h6>Post Requests</h6></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dashboard Tables -->
+              <div class="row main-box justify-content-around m-0 mb-4">
+                <div class="col-10 col-sm-11 col-md-11 col-lg-6 bg-white dash-box border">
+                  <h3 class="title display-5 text-center text-success">
+                     <a href="{% url 'recent_posts' 'home' %}" class="text-success">Recent Posts</a>
+                     <img src="{% static '/images/article.png' %}"  class="mt-0 img-thumbnail border-0">
+                  </h3>
+                  <table class="table table-hover table-responsive-sm">
+                    <thead>
+                      <tr>
+                        <th scope="col">Content</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Group</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in recent_posts %}
+                          {% if post.verification == 'accepted' %}
+                            <tr class="dashboard-table">
+                              <td><a href="{% url 'post_detail' name=post.group.name pk=post.id%}">{{post.content}}</a></td>
+                              <td>{{post.author.first_name}} {{post.author.last_name}}</td>
+                              <td>{{post.type}}</td>
+                              <td><a href="{% url 'post' post.group.name %}">{{post.group.name}}</a></td>
+                            </tr>
+                          {% endif %}
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  
+                </div>
+                <div class="col-3 col-sm-3 col-md-2 col-lg-1"></div>
+                <div class="col-10 col-sm-11 col-md-11 col-lg-5 bg-white dash-box border">
+                    <h2 class="display-5 graph-text text-center mt-2">
+                      <a href="{% url 'recent_logins' 'home' %}" class="text-orange">Last logins</a>
+                      <img src="{% static '/images/login.png' %}" class="mt-0 img-thumbnail border-0">
+                    </h2>
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                 
+                          <th scope="col">User</th>
+                          <th scope="col">Last Login</th>
+               
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {% for user in last_login_users %}
+                            {% if user.last_login != None %}
+                              <tr>
+                                <td>{{user.first_name}} {{user.last_name}}</td>
+                                <td>{{user.last_login}}</td>
+                            
+                              </tr>
+                            {% endif %}
+                          
+                          {% endfor %}
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    
+{% endblock content %}

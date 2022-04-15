@@ -1,0 +1,113 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center m-0">
+            <div class="col-11">
+                <!-- Dashboard breadcrumb -->
+                <nav class="bg-white p-0 mb-2 border-0" aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 border-bottom-0">
+                      <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Group</li>
+                    </ol>
+                </nav>
+
+                <!-- Header -->
+                <div class="row m-0 p-2 bg-white justify-content-center border">
+                    <h3 class="display-5 text-center mt-2">
+                        Create a Group <i class="fas fa-users text-success"></i>
+                    </h3>
+                </div>
+
+                <!-- form to create group -->
+                <div class="row m-0 justify-content-around bg-white mt-2 p-4">
+                    <div class="group-form col-12 col-sm-8 col-md-6 col-lg-4 col-xl-4 bg-white p-4 border mb-4">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="row m-0 justify-content-center">
+                                {% for message in messages %}
+                                    {{message}}
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="row form-group justify-content-center ml-0 mr-0">    
+                                <div class="col-12">Group Name</div>
+                            </div>
+                            <div class="row form-group justify-content-center ml-0 mr-0">    
+                                <div class="col-12"><input class="form-control" type="text" placeholder="Group Name" name="group-name"></div>
+                            </div>
+                            <div class="row form-group justify-content-center ml-0 mr-0">    
+                                <div class="col-12">Group Type</div>
+                            </div>
+                            <div class="row form-group justify-content-center ml-0 mr-0">
+                                <div class="col-12">{{form.group_type}}</div>
+                            </div>
+                            <div class="row form-group justify-content-center group-add-link ml-0 mr-0">
+                                <div class="col-12 col-md-8 col-7">
+                                    <button name="create" value="create" type="submit" class="btn btn-success">Add Group</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row justify-content-center ml-0 mr-0">
+                            <div class="col-12 col-md-10 col-sm-10 col-8">
+                                <a class="nav-link text-success" href="{% url 'add_user_group' 'home' %}"><i class="fas fa-plus"></i> Add User</a>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center ml-0 mr-0">
+                            <div class="col-12 col-md-10 col-sm-10 col-8">
+                                <a class="nav-link text-danger" href="{% url 'remove_user_group' 'home' %}"><i class="fas fa-minus"></i> Remove User</a>
+                            </div>
+                        </div>
+                        
+                        </div>
+
+                        <!-- table to display all groups -->
+                    <div class="table border col-12 col-sm-10 col-md-7 col-lg-6">
+                        <table class="table bg-white text-center table-responsive-xs">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for group in groups %}
+                                    <tr>
+                                        <td><a href="{% url 'post' group.name %}">{{group.name}}</a></td>
+                                        <td>{{group.group_type}}</td>
+                                        <td>
+                                            <a class="text-primary mr-3" href="{% url 'group_update' group.id %}"><i class="fas fa-pen"></i></a>
+
+                                            <a class="text-danger delete-logo" data-toggle="modal" data-target="#group-delete-modal" data-id="{{group.id}}">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                            <div class="modal fade" id="group-delete-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <form action="{% url 'group_delete' %}" method="POST">
+                                                            {% csrf_token %}
+                                                            <div class="modal-body">
+                                                            <input type="text" id="group-delete-id" name="group-delete-id" hidden>
+                                                            <h4>Are you sure you want to delete?</h4>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                            <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-danger" >Delete</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                            
+                                    </tr>
+                                {% endfor %}
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

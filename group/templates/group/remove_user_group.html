@@ -1,0 +1,73 @@
+
+{% extends 'blog/base.html'%}
+
+{% block content %}
+    
+   
+    <div class="container">
+        <!-- Dashboard breadcrumb -->
+        <nav class="bg-white p-0 mb-2 border-0" aria-label="breadcrumb">
+            <ol class="breadcrumb m-0 border-bottom-0">
+              <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+              <li class="breadcrumb-item active"><a href="{% url 'group_create' %}">Group</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Remove User from a Group</li>
+            </ol>
+        </nav>
+
+        <!-- dropdown to select group -->
+        <div class="row m-0 bg-white justify-content-center p-3 border">
+            <div class="btn-group ml-3">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Groups
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% for group in groups %}
+                        <a class="dropdown-item" type="button" href="{% url 'remove_user_group' group.name %}">{{group.name}}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="ml-4 mt-1"><h4 class="display-6">{{name}}</h4></div>
+        </div>
+
+        <!-- table to display and remove users -->
+        <div class="row m-0 justify-content-center bg-white mt-2">
+            {% for key,error in form.errors.items %} 
+            <p>{{ error }}</p>
+            {% endfor %}
+            
+            <form action="" method="Post" class="col-12">
+                {% csrf_token %}
+
+                <div class="container mt-4">
+                    <table class="table bg-white text-center table-responsive-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Full Name</th>
+                            <th scope="col">User type</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in present_users %}
+                                    <tr>
+                                        <th><img src="{{user.profile.image.url}}" width="80px" alt=""></th>
+                                        <td>{{user.profile.college_id}}</td>
+                                        <td>{{user.first_name}} {{user.last_name}}</td>
+                                        <td>{{user.profile.user_type}}</td>
+                                        <td><button type="submit" class="btn btn-danger" name ="user" value="{{user.id}}"><i class="fas fa-trash"></i> Remove</button></td>
+                                    </tr>
+                            {% endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    
+    
+{% endblock content %}

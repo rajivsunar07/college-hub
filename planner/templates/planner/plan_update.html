@@ -1,0 +1,29 @@
+{% extends 'blog/base.html'%}
+
+{% block content %}
+    <div class="container bg-white p-3">
+        <!-- Header -->
+        <div class="row justify-content-center border-bottom m-0 mb-3">
+            <h3>Update Plan</h3>
+        </div>
+        <div class="row m-0 mb-4">
+            <h2 class="text-info"> Today's date: </h2> <h4 class="mt-2 ml-2">{{time.date}}</h4>
+        </div>
+        
+        <!-- Form to update the plan -->
+        <form action="{% url 'plan_update' id%}" method="POST">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-10 col-sm-10 col-md-4 col-lg-4 col-xl-6 mb-2">{{form.title}}</div>
+                <div class="col-10 col-sm-10 col-md-4 col-lg-4 col-xl-3 mb-2">
+                    <div class="row m-0">
+                        {{form.date}} 
+                    </div>
+                </div>
+                <div class="col-8 col-sm-8 col-md-2 mb-2">{{form.time}} </div>
+                <button type="submit" class="btn btn-success">Update</button> 
+            </div>
+        </form>
+    </div>
+
+{% endblock content %}
